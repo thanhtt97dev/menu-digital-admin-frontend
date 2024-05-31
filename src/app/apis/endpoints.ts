@@ -10,4 +10,5 @@ const url = `${environment.baseUrl}${SLASH}api${SLASH}${API_VERSION.VERSION_1}${
 
 export const enpoints = {
     AUTH: url + "auth/",
+    USER: url + "user/",
 }
