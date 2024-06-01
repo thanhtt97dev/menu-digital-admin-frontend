@@ -9,6 +9,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 const IMPORTS = [
   CommonModule, 
@@ -19,7 +21,9 @@ const IMPORTS = [
   NzIconModule,
   NzInputModule,
   NzButtonModule,
-  NzCardModule
+  NzCardModule,
+  NzAvatarModule,
+  NzCardComponent
 ]
 
 @Component({
@@ -57,7 +61,10 @@ export class SignIn {
   
   signIn() : void{
     var body = this.signInForm.value
-    var result = this._userApi.signIn(body).subscribe((x) => console.log(x));
+    this._userApi.signIn(body).subscribe(data =>{
+      
+    })
+    
   }
 
   getUser():void{

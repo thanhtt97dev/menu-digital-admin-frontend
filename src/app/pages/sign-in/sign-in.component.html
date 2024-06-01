@@ -2,19 +2,22 @@
     <div nz-col nzSpan="8"></div>
     <div nz-col nzSpan="8">
         <div style="margin-top: 150px;"></div>
-        <nz-card [nzHoverable]=true nzTitle="Sign In">
+        <nz-card [nzHoverable]='false' [nzBorderless]='false'>
+            <nz-card-meta nzTitle="SignIn" [nzAvatar]="avatar" style="margin-bottom: 20px;">
+            </nz-card-meta>
             <form nz-form [formGroup]="signInForm" class="login-form" (ngSubmit)="signIn()">
                 <nz-form-item>
                     <nz-form-control nzErrorTip="Please input your username!">
-                        <nz-input-group >
+                        <nz-input-group>
                             <input type="text" nz-input formControlName="username" placeholder="Username" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-control nzErrorTip="Please input your Password!">
-                        <nz-input-group >
-                            <input type="password" nz-input formControlName="password" placeholder="Password"  autocomplete="on"/>
+                        <nz-input-group>
+                            <input type="password" nz-input formControlName="password" placeholder="Password"
+                                autocomplete="on" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -26,3 +29,8 @@
     </div>
     <div nz-col nzSpan="8"></div>
 </div>
+
+
+<ng-template #avatar>
+    <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+</ng-template>

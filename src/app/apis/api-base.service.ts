@@ -11,6 +11,7 @@ export class ApiBaseService {
 
   public get(url:string) : Observable<any>{
     return this._httpClient.get(url).pipe(catchError(this.handleError))
+    //return this._httpClient.get(`https://localhost:5000/api/Categories/GetAll`).pipe(catchError(this.handleError))
   }
 
   public post(url: string, payload: any) : Observable<any>{
