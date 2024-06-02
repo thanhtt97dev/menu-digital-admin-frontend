@@ -1,4 +1,4 @@
-import { UserApiService } from '@/apis/model/user-api.service';
+import { UserApiService } from '@/apis/user-api.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardComponent } from 'ng-zorro-antd/card';
+import { AuthApiService } from '@/apis/auth-api.service';
 
 const IMPORTS = [
   CommonModule, 
@@ -36,7 +37,11 @@ const IMPORTS = [
 export class SignIn {
   signInForm!: FormGroup
 
-  constructor(private _formBuilder: FormBuilder, private _userApi: UserApiService){
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _userApi: UserApiService,
+    private _authApi: AuthApiService
+  ){
     this.configurationSignInForm();
   }
 
@@ -61,8 +66,8 @@ export class SignIn {
   
   signIn() : void{
     var body = this.signInForm.value
-    this._userApi.signIn(body).subscribe(data =>{
-      
+    this._authApi.signIn(body).subscribe(data =>{
+      console.log(data.value.accessToken)
     })
     
   }
