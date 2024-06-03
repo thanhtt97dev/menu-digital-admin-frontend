@@ -19,5 +19,5 @@ const COMMON_ROUTES = [
 ]
 
 export const routes: Routes = [
-    ...COMMON_ROUTES
+    ...COMMON_ROUTES,
 ];

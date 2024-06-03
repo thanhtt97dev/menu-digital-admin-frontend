@@ -2,6 +2,7 @@ import { UserApiService } from '@/apis/user-api.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {of} from "rxjs"
 
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -66,16 +67,8 @@ export class SignIn {
   
   signIn() : void{
     var body = this.signInForm.value
-    this._authApi.signIn(body).subscribe(data =>{
-      console.log(data.value.accessToken)
+    this._authApi.signIn(body).subscribe((x) =>{
+      
     })
-    
   }
-
-  getUser():void{
-    var id = "1148b1ab-ca7d-4ed4-fd2a-08dc6676039b"
-    var result = this._userApi.getUserById(id).subscribe(x => console.log(x))
-  }
-
-
 }
