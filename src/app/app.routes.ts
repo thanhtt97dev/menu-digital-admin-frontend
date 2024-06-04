@@ -1,19 +1,20 @@
 import { Routes } from '@angular/router';
 import { SignIn } from './pages/sign-in/sign-in.component';
 import { Home } from './pages/home/home.component';
+import { END_POINT_ROUTE } from './commons/constants/end-point-route.constant';
 
 
 const COMMON_ROUTES = [
     {
-        path: "signIn",
+        path: END_POINT_ROUTE.SIGN_IN,
         component : SignIn
     },
     {
-        path: "home",
+        path: END_POINT_ROUTE.HOME,
         component: Home
     },
     {
-        path: "",
+        path: END_POINT_ROUTE.ROOT,
         component: Home
     }
 ]

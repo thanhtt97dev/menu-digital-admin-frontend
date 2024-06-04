@@ -9,12 +9,12 @@ export class ApiBaseService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  public get(url:string) : Observable<any>{
-    return this._httpClient.get(url).pipe(catchError(this.handleError))
+  public get(url:string, options?: any) : Observable<any>{
+    return this._httpClient.get(url,options).pipe(catchError(this.handleError))
   }
 
-  public post(url: string, payload: any) : Observable<any>{
-    return this._httpClient.post(url, payload).pipe(catchError(this.handleError))
+  public post(url: string, payload: any, options?: any) : Observable<any>{
+    return this._httpClient.post(url, payload, options).pipe(catchError(this.handleError))
   }
 
   private handleError(err : any){
