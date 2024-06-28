@@ -7,32 +7,38 @@ import { Keepalive } from '@ng-idle/keepalive';
 })
 export class IdleService {
 
-  idleTime :number = 300 //seconds
-  idleTimout: number = 5 //seconds
-  interrups: (DocumentInterruptSource | StorageInterruptSource)[] = DEFAULT_INTERRUPTSOURCES;
-  handleIdleEnd: Function = () =>{};
-  handleIdleTimeout: Function = () =>{};
-  handleIdleTimeoutWarning: Function = () =>{};
-  handleIdleStart: Function = () =>{};
-  keepaliveTime: number = 250 //seconds
-  handleKeepalivePing: Function = () =>{}
+  private idleTime :number = 300 //seconds
+  private idleTimout: number = 30 //seconds
+  private interrups: any = DEFAULT_INTERRUPTSOURCES;
+  private handleIdleEnd: Function = () =>{};
+  private handleIdleTimeout: Function = () =>{};
+  private handleIdleTimeoutWarning: Function = (countdown: any) =>{};
+  private handleIdleStart: Function = () =>{};
+  private keepaliveTime: number = 250 //seconds
+  private handleKeepalivePing: Function = () =>{}
 
-  constructor(private _idle: Idle, private _keepalive: Keepalive) {}
-
-  get idle() {
-    return this._idle;
-  }
+  constructor(
+    private _idle: Idle, private _keepalive: Keepalive
+  ) {}
 
   setIdleTime(seconds: number){
     this.idleTime = seconds
   }
 
   setIdleTimout(seconds: number){
-    this.idleTime = seconds
+    this.idleTimout = seconds
   }
 
-  setInterrups(interrupts: (DocumentInterruptSource | StorageInterruptSource)[]){
+  setKeepaliveTime(keepaliveTime: number){
+    this.keepaliveTime = keepaliveTime
+  }
+
+  setInterrups(interrupts: any){
     this.interrups = interrupts
+  }
+
+  setHandleIdleStart(handleIdleStart: Function){
+    this.handleIdleStart = handleIdleStart
   }
 
   setHandleIdleEnd(handleIdleEnd: Function){
@@ -45,14 +51,6 @@ export class IdleService {
 
   setHandleIdleTimeoutWarning(handleIdleTimeoutWarning: Function){
     this.handleIdleTimeoutWarning = handleIdleTimeoutWarning
-  }
-
-  setHandleIdleStart(handleIdleStart: Function){
-    this.handleIdleStart = handleIdleStart
-  }
-
-  setKeepaliveTime(keepaliveTime: number){
-    this.keepaliveTime = keepaliveTime
   }
 
   setHandleKeepalivePing(handleKeepalivePing: Function){
@@ -83,12 +81,12 @@ export class IdleService {
     //handle idle timeout
     this._idle.onTimeout.subscribe(() =>{
       this.handleIdleTimeout()
+      this.stop()
     })
 
     //handle timeout warning
-    this._idle.onTimeoutWarning.subscribe(() =>{
-      this.handleIdleTimeoutWarning()
-      this.stop()
+    this._idle.onTimeoutWarning.subscribe((countdown) =>{
+      this.handleIdleTimeoutWarning(countdown)
     })
 
     //set time ping interval
@@ -99,14 +97,14 @@ export class IdleService {
       this.handleKeepalivePing()
     })
 
-    this.idle.watch();
+    this._idle.watch();
   }
 
   stop() {
     this._idle.stop()
   }
   
-  reset() {
-    this.idle.watch();
+  private reset() {
+    this._idle.watch();
   }
 }
