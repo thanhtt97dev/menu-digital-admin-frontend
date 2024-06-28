@@ -11,12 +11,12 @@ export class AuthApiService {
   constructor(private _apiBase: ApiBaseService) { }
 
   signIn(body: any){
-    var url = enpoints.AUTH + `SignIn`
+    var url = enpoints.AUTH + `/SignIn`
     return this._apiBase.post(url, body)
   }
 
   refreshToken(){
-    var url = enpoints.AUTH + `refreshToken`
+    var url = enpoints.AUTH + `/refreshToken`
     var payload = {
       refreshToken: getRefreshToken()
     }

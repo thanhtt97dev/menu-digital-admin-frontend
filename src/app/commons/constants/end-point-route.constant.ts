@@ -1,10 +1,11 @@
 
 export enum END_POINT_ROUTE{
 
-    //Common
+    //#region Common
     ROOT = "",
     SIGN_IN = "signIn",
     HOME = "home"
-    //Common
+    //#endregion
 
+    
 }

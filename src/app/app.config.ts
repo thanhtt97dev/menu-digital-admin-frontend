@@ -5,8 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-import { Idle, LocalStorage, NgIdleModule } from '@ng-idle/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { LocalStorage, NgIdleModule } from '@ng-idle/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
