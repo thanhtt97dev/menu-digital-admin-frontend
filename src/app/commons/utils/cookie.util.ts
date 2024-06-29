@@ -1,5 +1,6 @@
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 import { COOKIE } from '../constants/application.constant'
+import { UserSession } from '@/models/user/user-session-model'
 
 export function getAccessToken() : string | undefined{
     return getCookie(COOKIE.ACCESS_TOKEN)
@@ -29,4 +30,16 @@ export function removeAuthentication():void{
     removeCookie(COOKIE.ACCESS_TOKEN)
     removeCookie(COOKIE.REFRESH_TOKEN)
     removeCookie(COOKIE.USER_ID)
+}
+
+export function getUserInCookie(){
+    return getCookie(COOKIE.USER)
+}
+
+export function setUserInCookie(user: UserSession):void{
+    setCookie(COOKIE.USER, JSON.stringify(user))
+}
+
+export function removeUserInCookie():void{
+    removeCookie(COOKIE.USER)
 }

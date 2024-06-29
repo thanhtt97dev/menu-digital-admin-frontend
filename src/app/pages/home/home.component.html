@@ -1,2 +1,9 @@
 <p>home works!</p>
-<button routerLink="/signIn">SignIn</button>
+
+@if(user){
+    <sign-out/>
+}@else {
+    <button routerLink="/signIn">SignIn</button>
+}
+
+

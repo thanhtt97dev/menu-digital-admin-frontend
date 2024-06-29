@@ -1,7 +1,8 @@
 export enum COOKIE {
     ACCESS_TOKEN  = "_token",
     REFRESH_TOKEN = "_refresh_token",
-    USER_ID = "_uid"
+    USER_ID = "_uid",
+    USER = "user"
 }
 
 export enum REQUEST_HEADER{

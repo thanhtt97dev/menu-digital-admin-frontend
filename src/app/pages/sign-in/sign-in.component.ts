@@ -1,6 +1,6 @@
 import { UserApiService } from '@/apis/user-api.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {of} from "rxjs"
 
@@ -13,6 +13,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { AuthApiService } from '@/apis/auth-api.service';
+import { AppService } from '@/services/app.service';
+import { Router } from '@angular/router';
+import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
 
 const IMPORTS = [
   CommonModule, 
@@ -35,15 +38,23 @@ const IMPORTS = [
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
-export class SignIn {
-  signInForm!: FormGroup
+export class SignIn implements OnInit{
+  signInForm: FormGroup
+  private router : Router
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _userApi: UserApiService,
-    private _authApi: AuthApiService
+    private _router: Router,
+
+    private _authApi: AuthApiService,
+    private _appService: AppService
   ){
+    this.router = _router
+
     this.configurationSignInForm();
+  }
+  ngOnInit(): void {
+    
   }
 
   //#region init configuration
@@ -67,8 +78,9 @@ export class SignIn {
   
   signIn() : void{
     var body = this.signInForm.value
-    this._authApi.signIn(body).subscribe((x) =>{
-      
+    this._authApi.signIn(body).subscribe((response) =>{
+      this._appService.setUser(response.value)
+      this.router.navigate([`${END_POINT_ROUTE.HOME}`])
     })
   }
 }
