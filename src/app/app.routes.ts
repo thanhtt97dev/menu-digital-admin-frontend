@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { SignIn } from './pages/sign-in/sign-in.component';
 import { Home } from './pages/home/home.component';
 import { END_POINT_ROUTE } from './commons/constants/end-point-route.constant';
-import { MainLayout } from './layouts/main-layout/main-layout.component';
+import { ContainerLayout } from './layouts/container-layout/container-layout.component';
 
 
 const COMMON_ROUTES = [
@@ -23,7 +23,7 @@ const COMMON_ROUTES = [
 const MAIN_LAYOUT =
 {
     path: '',
-    component: MainLayout,
+    component: ContainerLayout,
     children: [
         ...COMMON_ROUTES
     ]
