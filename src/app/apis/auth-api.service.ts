@@ -10,11 +10,13 @@ export class AuthApiService {
 
   constructor(private _apiBase: ApiBaseService) { }
 
+  //api/{version}/auth/signIn
   signIn(body: any){
-    var url = enpoints.AUTH + `/SignIn`
+    var url = enpoints.AUTH + `/signIn`
     return this._apiBase.post(url, body)
   }
 
+  //api/{version}/auth/refreshToken
   refreshToken(){
     var url = enpoints.AUTH + `/refreshToken`
     var payload = {
@@ -26,7 +28,6 @@ export class AuthApiService {
         Authorization: `Bearer ${getAccessToken()}`,
       }
     }
-
     return this._apiBase.post(url, payload, options)
   }
 }
