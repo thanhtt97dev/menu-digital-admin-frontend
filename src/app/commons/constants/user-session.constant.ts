@@ -5,9 +5,10 @@ export enum USER_SESSION{
     KEEP_ALIVE_TIME = 70 // time ping interval
     */
 
-   
-    IDLE_TIME = 5, //idle time
-    IDLE_TIMEOUT = 5, //idle time warning
-    KEEP_ALIVE_TIME = 3 // time ping interval
+    
+    IDLE_TIME = 20, //idle time
+    IDLE_TIMEOUT = 10, //idle time warning
+    KEEP_ALIVE_TIME = 25 // time ping interval
+    
     
 }
