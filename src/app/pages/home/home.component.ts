@@ -21,8 +21,9 @@ export class Home implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.user = this._appService.getUser()
-    console.log('user' + JSON.stringify(this._appService.getUser()))
+    this._appService.user$.subscribe(user => {
+      this.user = user
+    });
   }
 
 }

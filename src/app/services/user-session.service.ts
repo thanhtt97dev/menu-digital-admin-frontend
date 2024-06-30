@@ -3,6 +3,7 @@ import { Injectable} from '@angular/core';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { AppService } from './app.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,12 @@ export class UserSessionService {
   private interrups: any = DEFAULT_INTERRUPTSOURCES;
   private keepaliveTime: number = USER_SESSION.KEEP_ALIVE_TIME
 
+  private modalIdleTimeoutWarningRef : NzModalRef|null
+
   constructor(
     private _idle: Idle, 
     private _keepalive: Keepalive,
+    private _modalService: NzModalService,
 
     private _appService: AppService
   ) { 
@@ -24,24 +28,65 @@ export class UserSessionService {
   }
 
   private handleIdleStart: Function = () => {
-    console.log('idle start')
   };
 
   private handleIdleEnd: Function = () => { 
-    console.log('idle end')
+    this.closeModalIdleTimeoutWarning()
   };
 
   private handleIdleTimeout: Function = () => {
-    console.log('time out')
     this._appService.removeUser()
+    this.closeModalIdleTimeoutWarning()
+    this.openModalNotificationIdleTimeout()
   };
 
   private handleIdleTimeoutWarning: Function = (countdown: any) => {
-    console.log('You will time out in ' + countdown + ' seconds!')
+    this.openModalIdleTimeoutWarning()
+    this.updateModalIdleTimeoutWarningContent(countdown)
   };
 
   private handleKeepalivePing: Function = () => {
     console.log('keepalive ping')
+  }
+
+  openModalIdleTimeoutWarning(): void{
+    if(this.modalIdleTimeoutWarningRef) return;
+    this.modalIdleTimeoutWarningRef = this._modalService.warning({
+      nzTitle: 'You are not here ?',
+      nzContent: '',
+      nzFooter: [
+        {
+          label: 'Close',
+          shape: 'round',
+        },
+      ]
+    });
+  }
+
+  updateModalIdleTimeoutWarningContent(second: number){
+    if(this.modalIdleTimeoutWarningRef === null) return;
+    this.modalIdleTimeoutWarningRef.updateConfig({
+      nzContent: `You will logout in ${second} seconds!`
+    })
+  }
+
+  closeModalIdleTimeoutWarning(){
+    if(this.modalIdleTimeoutWarningRef === null) return;
+    this.modalIdleTimeoutWarningRef.close()
+    this.modalIdleTimeoutWarningRef = null
+  }
+
+  openModalNotificationIdleTimeout(){
+    this.modalIdleTimeoutWarningRef = this._modalService.info({
+      nzTitle: 'Timout',
+      nzContent: 'You are not here in a few time! Please relogin!',
+      nzFooter:[
+        {
+          label: 'Close',
+          shape: 'round',
+        },
+      ]
+    });
   }
 
 
