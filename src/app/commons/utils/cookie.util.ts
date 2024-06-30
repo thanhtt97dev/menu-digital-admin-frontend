@@ -18,8 +18,8 @@ export function setRefreshToken(token : string):void{
     setCookie(COOKIE.REFRESH_TOKEN, token, {expires: 1})
 }
 
-export function getUserId(){
-    getCookie(COOKIE.USER_ID)
+export function getUserId(): string | undefined{
+    return getCookie(COOKIE.USER_ID)
 }
 
 export function setUserId(userId: string){

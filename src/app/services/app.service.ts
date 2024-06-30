@@ -25,7 +25,6 @@ export class AppService {
 
   setUser(user: UserSession): void{
     this.userSubject.next(user)
-    setUserInCookie(user)
   }
 
   getUser(): UserSession|null {
@@ -34,7 +33,6 @@ export class AppService {
 
   removeUser():void{
     this.userSubject.next(null)
-    removeUserInCookie()
   }
   //#endregion
 

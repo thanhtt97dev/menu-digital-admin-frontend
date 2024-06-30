@@ -4,6 +4,8 @@ import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { AppService } from './app.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { AuthApiService } from '@/apis/auth-api.service';
+import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cookie.util';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +17,15 @@ export class UserSessionService {
   private interrups: any = DEFAULT_INTERRUPTSOURCES;
   private keepaliveTime: number = USER_SESSION.KEEP_ALIVE_TIME
 
-  private modalIdleTimeoutWarningRef : NzModalRef|null
+  private modalIdleTimeoutWarningRef : NzModalRef|null = null
 
   constructor(
     private _idle: Idle, 
     private _keepalive: Keepalive,
     private _modalService: NzModalService,
 
-    private _appService: AppService
+    private _appService: AppService,
+    private _authApiService: AuthApiService
   ) { 
     this.configuration()
   }
@@ -46,52 +49,46 @@ export class UserSessionService {
   };
 
   private handleKeepalivePing: Function = () => {
-    console.log('keepalive ping')
+    this._authApiService.refreshToken().subscribe((response) =>{
+      this._appService.setUser(response.value)
+      var data = response.value
+      setAccessToken(data.accessToken)
+      setRefreshToken(data.refreshToken)
+      setUserId(data.userId)
+    })
   }
 
-  openModalIdleTimeoutWarning(): void{
-    if(this.modalIdleTimeoutWarningRef) return;
+  private openModalIdleTimeoutWarning(): void{
+    if(this.modalIdleTimeoutWarningRef !== null) return;
     this.modalIdleTimeoutWarningRef = this._modalService.warning({
       nzTitle: 'You are not here ?',
       nzContent: '',
-      nzFooter: [
-        {
-          label: 'Close',
-          shape: 'round',
-        },
-      ]
     });
   }
 
-  updateModalIdleTimeoutWarningContent(second: number){
+  private updateModalIdleTimeoutWarningContent(second: number){
     if(this.modalIdleTimeoutWarningRef === null) return;
     this.modalIdleTimeoutWarningRef.updateConfig({
       nzContent: `You will logout in ${second} seconds!`
     })
   }
 
-  closeModalIdleTimeoutWarning(){
+  private closeModalIdleTimeoutWarning(){
     if(this.modalIdleTimeoutWarningRef === null) return;
     this.modalIdleTimeoutWarningRef.close()
     this.modalIdleTimeoutWarningRef = null
   }
 
-  openModalNotificationIdleTimeout(){
+  private openModalNotificationIdleTimeout(){
     this.modalIdleTimeoutWarningRef = this._modalService.info({
       nzTitle: 'Timout',
       nzContent: 'You are not here in a few time! Please relogin!',
-      nzFooter:[
-        {
-          label: 'Close',
-          shape: 'round',
-        },
-      ]
     });
   }
 
 
   configuration() {
-    // sets an idle timeout of this.idleTime seconds
+    // sets an idle of this.idleTime seconds
     this._idle.setIdle(this.idleTime)
 
     // sets a timeout period of this.idleTime seconds. after this.idleTime + this.idleTimout seconds of inactivity, the user will be considered timed out.

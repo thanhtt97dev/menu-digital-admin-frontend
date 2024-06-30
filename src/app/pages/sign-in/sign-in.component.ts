@@ -16,6 +16,7 @@ import { AuthApiService } from '@/apis/auth-api.service';
 import { AppService } from '@/services/app.service';
 import { Router } from '@angular/router';
 import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
+import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cookie.util';
 
 const IMPORTS = [
   CommonModule, 
@@ -79,7 +80,12 @@ export class SignIn implements OnInit{
   signIn() : void{
     var body = this.signInForm.value
     this._authApi.signIn(body).subscribe((response) =>{
-      this._appService.setUser(response.value)
+      var data = response.value
+      setAccessToken(data.accessToken)
+      setRefreshToken(data.refreshToken)
+      setUserId(data.userId)
+
+      this._appService.setUser(data.userId)
       this.router.navigate([`${END_POINT_ROUTE.HOME}`])
     })
   }

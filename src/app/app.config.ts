@@ -6,7 +6,7 @@ import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { LocalStorage, NgIdleModule } from '@ng-idle/core';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NgZorroAntdModule } from './commons/modules/ng-zorro-antd.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
 
     // add ng-zorro-antd modules
-    importProvidersFrom(NzModalModule),
+    importProvidersFrom(NgZorroAntdModule),
 
     //add idle provider idle lib
     NgIdleKeepaliveModule.forRoot().providers!,
