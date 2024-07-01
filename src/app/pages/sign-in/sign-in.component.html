@@ -1,5 +1,6 @@
 <div nz-row>
-    <div nz-col nzSpan="8"></div>
+    <div nz-col nzSpan="8">
+    </div>
     <div nz-col nzSpan="8">
         <div style="margin-top: 150px;"></div>
         <nz-card [nzHoverable]='false' [nzBorderless]='false'>
@@ -24,13 +25,16 @@
                 <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
                 Or
                 <a>register now!</a>
+                <asl-google-signin-button [width]="200" type='standard' size='medium' ></asl-google-signin-button>
             </form>
         </nz-card>
     </div>
-    <div nz-col nzSpan="8"></div>
+    <div nz-col nzSpan="8">
+        
+    </div>
 </div>
 
 
 <ng-template #avatar>
-    <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+    <nz-avatar nzSrc="https://digitalfuhubs.blob.core.windows.net/digitalfuhub/cho.png" nzSize="large"></nz-avatar>
 </ng-template>

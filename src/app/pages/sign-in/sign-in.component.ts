@@ -2,7 +2,7 @@ import { UserApiService } from '@/apis/user-api.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {of} from "rxjs"
+import { of } from "rxjs"
 
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -17,10 +17,11 @@ import { AppService } from '@/services/app.service';
 import { Router } from '@angular/router';
 import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
 import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cookie.util';
+import { GoogleSigninButtonModule, SocialAuthService } from '@abacritt/angularx-social-login';
 
 const IMPORTS = [
-  CommonModule, 
-  FormsModule, 
+  CommonModule,
+  FormsModule,
   ReactiveFormsModule,
   NzGridModule,
   NzFormModule,
@@ -29,7 +30,8 @@ const IMPORTS = [
   NzButtonModule,
   NzCardModule,
   NzAvatarModule,
-  NzCardComponent
+  NzCardComponent,
+  GoogleSigninButtonModule,
 ]
 
 @Component({
@@ -39,29 +41,30 @@ const IMPORTS = [
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
-export class SignIn implements OnInit{
+export class SignIn implements OnInit {
   signInForm: FormGroup
-  private router : Router
+  private router: Router
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
+    private _socialAuthService: SocialAuthService,
 
     private _authApi: AuthApiService,
     private _appService: AppService
-  ){
+  ) {
     this.router = _router
 
     this.configurationSignInForm();
   }
   ngOnInit(): void {
-    
+    this.SignInByGoogle()
   }
 
   //#region init configuration
-  configurationSignInForm() : void{
+  configurationSignInForm(): void {
     this.signInForm = this._formBuilder.group({
-      username : [
+      username: [
         "",
         Validators.compose([
           Validators.required
@@ -76,10 +79,10 @@ export class SignIn implements OnInit{
     })
   }
   //#endregion
-  
-  signIn() : void{
+
+  signIn(): void {
     var body = this.signInForm.value
-    this._authApi.signIn(body).subscribe((response) =>{
+    this._authApi.signIn(body).subscribe((response) => {
       var data = response.value
       setAccessToken(data.accessToken)
       setRefreshToken(data.refreshToken)
@@ -87,6 +90,22 @@ export class SignIn implements OnInit{
 
       this._appService.setUser(data.userId)
       this.router.navigate([`${END_POINT_ROUTE.HOME}`])
+    })
+  }
+
+  SignInByGoogle(): void {
+    this._socialAuthService.authState.subscribe((user) => {
+      this._authApi.SignInByGoogle(user.idToken)
+        .subscribe((response) => {
+          var data = response.value
+          setAccessToken(data.accessToken)
+          setRefreshToken(data.refreshToken)
+          setUserId(data.userId)
+
+          this._appService.setUser(data.userId)
+          this.router.navigate([`${END_POINT_ROUTE.HOME}`])
+        })
+
     })
   }
 }

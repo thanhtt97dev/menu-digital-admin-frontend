@@ -16,6 +16,14 @@ export class AuthApiService {
     return this._apiBase.post(url, body)
   }
 
+  SignInByGoogle(googleToken: string){
+    var payload = {
+      googleToken: googleToken
+    }
+    var url = enpoints.AUTH + `/SignInByGoogle`
+    return this._apiBase.post(url, payload)
+  }
+
   //api/{version}/auth/refreshToken
   refreshToken(){
     var url = enpoints.AUTH + `/refreshToken`

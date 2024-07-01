@@ -7,6 +7,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { LocalStorage, NgIdleModule } from '@ng-idle/core';
 import { NgZorroAntdModule } from './commons/modules/ng-zorro-antd.module';
+import { AngularSocialLoginModule } from './commons/modules/angularx-social-login.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,12 +20,15 @@ export const appConfig: ApplicationConfig = {
     //add provider animation for UI libs
     provideAnimations(),
 
-    // add ng-zorro-antd modules
-    importProvidersFrom(NgZorroAntdModule),
-
     //add idle provider idle lib
     NgIdleKeepaliveModule.forRoot().providers!,
     NgIdleModule.forRoot().providers!,
-    LocalStorage
+    LocalStorage,
+
+    // add ng-zorro-antd modules
+    importProvidersFrom(NgZorroAntdModule),
+
+    // add angularx-social-login modules
+    importProvidersFrom(AngularSocialLoginModule)
   ]
 };
