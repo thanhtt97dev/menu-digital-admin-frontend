@@ -2,7 +2,6 @@ import { UserApiService } from '@/apis/user-api.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { of } from "rxjs"
 
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -43,7 +42,6 @@ const IMPORTS = [
 })
 export class SignIn implements OnInit {
   signInForm: FormGroup
-  private router: Router
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -53,12 +51,11 @@ export class SignIn implements OnInit {
     private _authApi: AuthApiService,
     private _appService: AppService
   ) {
-    this.router = _router
 
     this.configurationSignInForm();
   }
   ngOnInit(): void {
-    this.SignInByGoogle()
+    //this.signInByGoogle()
   }
 
   //#region init configuration
@@ -89,23 +86,9 @@ export class SignIn implements OnInit {
       setUserId(data.userId)
 
       this._appService.setUser(data.userId)
-      this.router.navigate([`${END_POINT_ROUTE.HOME}`])
+      this._router.navigate([`${END_POINT_ROUTE.HOME}`])
     })
   }
 
-  SignInByGoogle(): void {
-    this._socialAuthService.authState.subscribe((user) => {
-      this._authApi.SignInByGoogle(user.idToken)
-        .subscribe((response) => {
-          var data = response.value
-          setAccessToken(data.accessToken)
-          setRefreshToken(data.refreshToken)
-          setUserId(data.userId)
 
-          this._appService.setUser(data.userId)
-          this.router.navigate([`${END_POINT_ROUTE.HOME}`])
-        })
-
-    })
-  }
 }
