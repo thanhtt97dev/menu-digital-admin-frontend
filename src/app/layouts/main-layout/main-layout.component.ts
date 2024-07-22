@@ -4,17 +4,18 @@ import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cook
 import { AppService } from '@/services/app.service';
 import { UserSessionService } from '@/services/user-session.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NgProgressComponent, NgProgressModule } from 'ngx-progressbar';
 
 @Component({
   selector: 'main-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, NgProgressModule],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
-export class MainLayout implements OnInit {
+export class MainLayout implements OnInit  {
   constructor(
     private _router: Router,
     private _socialAuthService: SocialAuthService,
@@ -23,6 +24,7 @@ export class MainLayout implements OnInit {
     private _appService: AppService,
     private _authApi: AuthApiService,
   ){}
+
   ngOnInit(): void {
     this._appService.user$.subscribe(user => {
       if(user){
@@ -31,7 +33,6 @@ export class MainLayout implements OnInit {
         this._userSessionService.stop()
       }
     });
-    
     /*
     lib abacritt/angularx-social-login need config in root component to
     handle subscribe state change
@@ -39,6 +40,7 @@ export class MainLayout implements OnInit {
     this.signInByGoogle()
   }
 
+  //#region signInByGoogle
   signInByGoogle(): void {
     this._socialAuthService.authState.subscribe((user) => {
       if(user === null) return;
@@ -53,4 +55,6 @@ export class MainLayout implements OnInit {
         })
     })
   }
+  //#endregion
+
 }

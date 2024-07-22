@@ -3,11 +3,12 @@ import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { LocalStorage, NgIdleModule } from '@ng-idle/core';
 import { NgZorroAntdModule } from './commons/modules/ng-zorro-antd.module';
 import { AngularSocialLoginModule } from './commons/modules/angularx-social-login.module';
+import { HttpRequestInterceptor } from './interceptors/http-request.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     //add provider http client
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([HttpRequestInterceptor])
+    ),
 
     //add provider animation for UI libs
     provideAnimations(),

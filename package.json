@@ -22,6 +22,7 @@
     "@ng-idle/core": "^14.0.0",
     "@ng-idle/keepalive": "^14.0.0",
     "ng-zorro-antd": "^17.4.1",
+    "ngx-progressbar": "^11.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "typescript-cookie": "^1.0.6",
