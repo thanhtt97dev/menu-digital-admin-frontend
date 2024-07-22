@@ -2,32 +2,27 @@ export enum STATUS_CODES {
     /// <summary>
     /// HTTP status code 200.
     /// </summary>
-    Status200OK = 200,
+    OK = 200,
 
     /// <summary>
     /// HTTP status code 400.
     /// </summary>
-    Status400BadRequest = 400,
+    BAD_REQUEST = 400,
 
     /// <summary>
     /// HTTP status code 401.
     /// </summary>
-    Status401Unauthorized = 401,
+    UN_AUTHORIZED = 401,
 
     /// <summary>
     /// HTTP status code 403.
     /// </summary>
-    Status403Forbidden = 403,
+    FORBIDDEN = 403,
 
     /// <summary>
     /// HTTP status code 404.
     /// </summary>
-    Status404NotFound = 404,
-
-    /// <summary>
-    /// HTTP status code 405.
-    /// </summary>
-    Status405MethodNotAllowed = 405,
+    NOT_FOUND = 404,
 
     /// <summary>
     /// HTTP status code 406.
@@ -35,12 +30,12 @@ export enum STATUS_CODES {
     Status406NotAcceptable = 406,
 
     /// <summary>
-    /// HTTP status code 409.
+    /// HTTP status code 422.
     /// </summary>
-    Status409Conflict = 409,
+    UN_PROCESSABLE_ENTITY = 422,
 
     /// <summary>
     /// HTTP status code 500.
     /// </summary>
-    Status500InternalServerError = 500,
+    INTERNAL_SERVER_ERROR = 500,
 }
