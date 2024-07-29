@@ -13,8 +13,9 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { AuthApiService } from '@/apis/auth-api.service';
 import { AppService } from '@/services/app.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
+import { RESPONSE_CODES } from '@/commons/constants/application-response-code.constant';
 import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cookie.util';
 import { GoogleSigninButtonModule, SocialAuthService } from '@abacritt/angularx-social-login';
 
@@ -31,6 +32,7 @@ const IMPORTS = [
   NzAvatarModule,
   NzCardComponent,
   GoogleSigninButtonModule,
+  RouterLink
 ]
 
 @Component({
@@ -41,7 +43,11 @@ const IMPORTS = [
   styleUrl: './sign-in.component.scss'
 })
 export class SignIn implements OnInit {
+
+  readonly END_POINT_ROUTE = END_POINT_ROUTE;
+
   signInForm: FormGroup
+  message: string = ''
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -79,7 +85,10 @@ export class SignIn implements OnInit {
 
   signIn(): void {
     var body = this.signInForm.value
-    this._authApi.signIn(body).subscribe((response) => {
+    this._authApi.signIn(body).subscribe((response : any) => {
+      if(response.code !== RESPONSE_CODES.SUCCESS){
+        this.message = response.message
+      }
       var data = response.value
       setAccessToken(data.accessToken)
       setRefreshToken(data.refreshToken)
