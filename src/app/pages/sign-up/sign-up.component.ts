@@ -2,7 +2,8 @@ import { NgZorroAntdModule } from '@/commons/modules/ng-zorro-antd.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { REGEX } from '@/commons/constants/regex.constant';
 
 @Component({
   selector: 'sign-up',
@@ -18,29 +19,41 @@ import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFo
 })
 export class SignUp {
 
-  validateForm: FormGroup<{
+  signUpForm: FormGroup<{
     userName: FormControl<string>;
     password: FormControl<string>;
-    remember: FormControl<boolean>;
-  }> = this.fb.group({
-    userName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    remember: [true]
-  });
+    confirmPassword: FormControl<string>;
+    email: FormControl<string>;
+  }>;
 
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
+  constructor(private fb: NonNullableFormBuilder) {
+    this.signUpForm = this.fb.group({
+      userName: ['', [ Validators.required, Validators.minLength(6), Validators.maxLength(15),]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(15)]],
+      confirmPassword: ['', [Validators.required, this.validateConfirmPassword]],
+      email: ['', [Validators.required, Validators.pattern(REGEX.EMAIL)]],
+    });
   }
 
-  constructor(private fb: NonNullableFormBuilder) {}
+  updateConfirmValidator(): void {
+    /** wait for refresh value */
+    Promise.resolve().then(() => this.signUpForm.controls.confirmPassword.updateValueAndValidity());
+  }
 
+  validateConfirmPassword: ValidatorFn = (control: AbstractControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.signUpForm.controls.password.value) {
+      return { confirm: true, error: true };
+    }
+    return {};
+  };
+
+  submitForm(): void {
+    if (!this.signUpForm.valid) {
+      return; 
+    }
+
+    
+  }
 }

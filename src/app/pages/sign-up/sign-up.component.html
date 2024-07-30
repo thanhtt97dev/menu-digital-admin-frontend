@@ -1,29 +1,51 @@
 <div nz-row>
-  <div nz-col nzSpan="8"></div>
-  <div nz-col nzSpan="8">
+  <div nz-col nzSpan="6"></div>
+  <div nz-col nzSpan="10">
     <nz-card [nzHoverable]='false' [nzBorderless]='false'>
       <nz-card-meta nzTitle="Sign Up" [nzAvatar]="avatar" style="margin-bottom: 20px;">
       </nz-card-meta>
-      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <form nz-form [formGroup]="signUpForm" class="login-form" (ngSubmit)="submitForm()">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your username!">
-            <nz-input-group nzPrefixIcon="user">
-              <input type="text" nz-input formControlName="userName" placeholder="Username" />
-            </nz-input-group>
+          <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Username</nz-form-label>
+          <nz-form-control nzErrorTip="Please input your username!" nzOffset="1">
+            <input formControlName="userName" nz-input />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your Password!">
-            <nz-input-group nzPrefixIcon="lock">
-              <input type="password" nz-input formControlName="password" placeholder="Password" />
-            </nz-input-group>
+          <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Password</nz-form-label>
+          <nz-form-control nzErrorTip="Please input your Password!" nzOffset="1">
+            <input type="password" (ngModelChange)="updateConfirmValidator()" nz-input formControlName="password" />
           </nz-form-control>
         </nz-form-item>
-        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Sign Up</button>
+        <nz-form-item>
+          <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Confirm password</nz-form-label>
+          <nz-form-control [nzErrorTip]="errorConfirmPassword" nzOffset="1">
+            <input type="password" nz-input formControlName="confirmPassword" />
+            <ng-template #errorConfirmPassword let-control>
+              @if (control.errors?.['required']) {
+                Please confirm your password!
+              }
+              @if (control.errors?.['confirm']) {
+                Two passwords that you enter is inconsistent!
+              }
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Email</nz-form-label>
+          <nz-form-control nzErrorTip="Please input your Email!" nzOffset="1">
+            <input type="email" nz-input formControlName="email" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="8" [nzOffset]="12">
+            <button nz-button nzType="primary">Sign up</button>
+          </nz-form-control>
+        </nz-form-item>
       </form>
     </nz-card>
   </div>
-  <div nz-col nzSpan="8"></div>
+  <div nz-col nzSpan="6"></div>
 </div>
 
 <ng-template #avatar>
