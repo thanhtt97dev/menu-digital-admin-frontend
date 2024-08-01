@@ -1,11 +1,12 @@
 import { USER_SESSION } from '@/commons/constants/user-session.constant';
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { AppService } from './app.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AuthApiService } from '@/apis/auth-api.service';
 import { setAccessToken, setRefreshToken, setUserId } from '@/commons/utils/cookie.util';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +18,29 @@ export class UserSessionService {
   private interrups: any = DEFAULT_INTERRUPTSOURCES;
   private keepaliveTime: number = USER_SESSION.KEEP_ALIVE_TIME
 
-  private modalIdleTimeoutWarningRef : NzModalRef|null = null
+  private modalIdleTimeoutWarningRef: NzModalRef | null = null
 
   constructor(
-    private _idle: Idle, 
+    private _idle: Idle,
     private _keepalive: Keepalive,
     private _modalService: NzModalService,
+    private _socialAuthService: SocialAuthService,
 
     private _appService: AppService,
     private _authApiService: AuthApiService
-  ) { 
+  ) {
     this.configuration()
   }
 
   private handleIdleStart: Function = () => {
   };
 
-  private handleIdleEnd: Function = () => { 
+  private handleIdleEnd: Function = () => {
     this.closeModalIdleTimeoutWarning()
   };
 
   private handleIdleTimeout: Function = () => {
+    this._socialAuthService.signOut()
     this._appService.removeUser()
     this.closeModalIdleTimeoutWarning()
     this.openModalNotificationIdleTimeout()
@@ -49,7 +52,7 @@ export class UserSessionService {
   };
 
   private handleKeepalivePing: Function = () => {
-    this._authApiService.refreshToken().subscribe((response) =>{
+    this._authApiService.refreshToken().subscribe((response) => {
       this._appService.setUser(response.value)
       var data = response.value
       setAccessToken(data.accessToken)
@@ -58,28 +61,28 @@ export class UserSessionService {
     })
   }
 
-  private openModalIdleTimeoutWarning(): void{
-    if(this.modalIdleTimeoutWarningRef !== null) return;
+  private openModalIdleTimeoutWarning(): void {
+    if (this.modalIdleTimeoutWarningRef !== null) return;
     this.modalIdleTimeoutWarningRef = this._modalService.warning({
       nzTitle: 'You are not here ?',
       nzContent: '',
     });
   }
 
-  private updateModalIdleTimeoutWarningContent(second: number){
-    if(this.modalIdleTimeoutWarningRef === null) return;
+  private updateModalIdleTimeoutWarningContent(second: number) {
+    if (this.modalIdleTimeoutWarningRef === null) return;
     this.modalIdleTimeoutWarningRef.updateConfig({
       nzContent: `You will logout in ${second} seconds!`
     })
   }
 
-  private closeModalIdleTimeoutWarning(){
-    if(this.modalIdleTimeoutWarningRef === null) return;
+  private closeModalIdleTimeoutWarning() {
+    if (this.modalIdleTimeoutWarningRef === null) return;
     this.modalIdleTimeoutWarningRef.close()
     this.modalIdleTimeoutWarningRef = null
   }
 
-  private openModalNotificationIdleTimeout(){
+  private openModalNotificationIdleTimeout() {
     this.modalIdleTimeoutWarningRef = this._modalService.info({
       nzTitle: 'Timout',
       nzContent: 'You are not here in a few time! Please relogin!',
