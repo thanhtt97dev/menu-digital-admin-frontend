@@ -52,10 +52,14 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control [nzSpan]="8" [nzOffset]="12">
-            @if(message !== ''){
+          @if(message !== ''){
+            <nz-form-control [nzOffset]="6">
               <i style="color: red;">{{message}}</i>
-            }
+            </nz-form-control>
+          }
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="8" [nzOffset]="12">
             <button nz-button nzType="primary">Sign up</button>
           </nz-form-control>
         </nz-form-item>
