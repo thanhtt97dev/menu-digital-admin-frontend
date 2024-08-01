@@ -11,12 +11,12 @@ export class AuthApiService {
   constructor(private _apiBase: ApiBaseService) { }
 
   //api/{version}/auth/signIn
-  signIn(body: any){
+  signIn(body: any) {
     var url = enpoints.AUTH + `/signIn`
     return this._apiBase.post(url, body)
   }
 
-  SignInByGoogle(googleToken: string){
+  SignInByGoogle(googleToken: string) {
     var payload = {
       googleToken: googleToken
     }
@@ -25,17 +25,23 @@ export class AuthApiService {
   }
 
   //api/{version}/auth/refreshToken
-  refreshToken(){
+  refreshToken() {
     var url = enpoints.AUTH + `/refreshToken`
     var payload = {
       refreshToken: getRefreshToken()
     }
     var options = {
-      headers:{
+      headers: {
         X_mechat_u_id: `${getUserId()}`,
         Authorization: `Bearer ${getAccessToken()}`,
       }
     }
     return this._apiBase.post(url, payload, options)
+  }
+
+  signUp(payload: any) {
+    var url = enpoints.AUTH + `/signUp`
+
+    return this._apiBase.post(url, payload)
   }
 }

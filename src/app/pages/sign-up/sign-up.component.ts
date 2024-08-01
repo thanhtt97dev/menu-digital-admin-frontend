@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { REGEX } from '@/commons/constants/regex.constant';
+import { AuthApiService } from '@/apis/auth-api.service';
+import { RESPONSE_CODES } from '@/commons/constants/application-response-code.constant';
 
 @Component({
   selector: 'sign-up',
@@ -20,15 +22,20 @@ import { REGEX } from '@/commons/constants/regex.constant';
 export class SignUp {
 
   signUpForm: FormGroup<{
-    userName: FormControl<string>;
+    username: FormControl<string>;
     password: FormControl<string>;
     confirmPassword: FormControl<string>;
     email: FormControl<string>;
   }>;
 
-  constructor(private fb: NonNullableFormBuilder) {
+  message: string = ''
+
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private _apiAuth: AuthApiService
+  ) {
     this.signUpForm = this.fb.group({
-      userName: ['', [ Validators.required, Validators.minLength(6), Validators.maxLength(15),]],
+      username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15),]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(15)]],
       confirmPassword: ['', [Validators.required, this.validateConfirmPassword]],
       email: ['', [Validators.required, Validators.pattern(REGEX.EMAIL)]],
@@ -51,9 +58,20 @@ export class SignUp {
 
   submitForm(): void {
     if (!this.signUpForm.valid) {
-      return; 
+      return;
     }
-
-    
+    var payload = {
+      username: this.signUpForm.value.username,
+      password: this.signUpForm.value.password,
+      email: this.signUpForm.value.email
+    }
+    this._apiAuth.signUp(payload)
+      .subscribe((response: any) => {
+        if (response.code !== RESPONSE_CODES.SUCCESS) {
+          this.message = response.message
+        } else {
+          this.message = "Your account sign up successfully! Please check your email!"
+        }
+      })
   }
 }

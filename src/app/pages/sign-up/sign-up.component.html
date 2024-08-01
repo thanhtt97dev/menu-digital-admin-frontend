@@ -7,8 +7,15 @@
       <form nz-form [formGroup]="signUpForm" class="login-form" (ngSubmit)="submitForm()">
         <nz-form-item>
           <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Username</nz-form-label>
-          <nz-form-control nzErrorTip="Please input your username!" nzOffset="1">
-            <input formControlName="userName" nz-input />
+          <nz-form-control [nzErrorTip]="errorUsername" nzOffset="1">
+            <input formControlName="username" nz-input />
+            <ng-template #errorUsername let-control>
+              @if(control.errors?.['required']){
+                Please input your password
+              }@else if(control.errors?.['minlength'] || control.errors?.['maxlength']){
+                Please input 6 - 15 characters for password
+              }
+            </ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -33,12 +40,22 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzRequired nzLabelAlign="left" nzSpan="5">Email</nz-form-label>
-          <nz-form-control nzErrorTip="Please input your Email!" nzOffset="1">
+          <nz-form-control [nzErrorTip]="errorEmail" nzOffset="1">
             <input type="email" nz-input formControlName="email" />
+            <ng-template #errorEmail let-control>
+              @if(control.errors?.['required']){
+                Please input your email
+              }@else if(control.errors?.['pattern']){
+                Please input correct email
+              }
+            </ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzSpan]="8" [nzOffset]="12">
+            @if(message !== ''){
+              <i style="color: red;">{{message}}</i>
+            }
             <button nz-button nzType="primary">Sign up</button>
           </nz-form-control>
         </nz-form-item>
