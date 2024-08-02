@@ -44,4 +44,14 @@ export class AuthApiService {
 
     return this._apiBase.post(url, payload)
   }
+
+  confirmSignUp(accessToken: string) {
+    var url = enpoints.AUTH + '/confirmSignUp'
+    var options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    }
+    return this._apiBase.post(url, {}, options)
+  }
 }
