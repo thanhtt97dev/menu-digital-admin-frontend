@@ -1,4 +1,4 @@
-export const enum RESPONSE_CODES {
+export enum RESPONSE_CODES {
     SUCCESS = "00",
     FAILURE = "01",
     NOT_FOUND = "02",

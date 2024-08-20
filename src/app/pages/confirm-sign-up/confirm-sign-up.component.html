@@ -1,3 +1,9 @@
-@if(message !== ''){
-<i style="color: red;">{{message}}</i>
+@if(isSuccess){
+    <nz-result nzStatus="success" nzTitle="{{message}}">
+        <div nz-result-extra>
+            <button nz-button nzType="primary" routerLink="/{{END_POINT_ROUTE.SIGN_IN}}">Login</button>
+        </div>
+    </nz-result>
+}@else {
+    <nz-result nzStatus="error" nzTitle="{{message}}"/>
 }
