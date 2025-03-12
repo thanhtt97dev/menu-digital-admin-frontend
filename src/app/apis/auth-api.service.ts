@@ -12,7 +12,7 @@ export class AuthApiService {
 
   //api/{version}/auth/signIn
   signIn(body: any) {
-    var url = enpoints.AUTH + `/signIn`
+    var url = enpoints.AUTH + `/signin`
     return this._apiBase.post(url, body)
   }
 
@@ -40,7 +40,7 @@ export class AuthApiService {
   }
 
   signUp(payload: any) {
-    var url = enpoints.AUTH + `/signUp`
+    var url = enpoints.AUTH + `/signup`
 
     return this._apiBase.post(url, payload)
   }
