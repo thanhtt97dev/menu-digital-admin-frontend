@@ -49,7 +49,7 @@ export class SignIn implements OnInit, OnDestroy {
   signInForm: FormGroup
   message: string = ''
 
-  private signInSocialsubscription : Subscription
+  private signInSocialsubscription: Subscription
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -90,11 +90,11 @@ export class SignIn implements OnInit, OnDestroy {
 
   signIn(): void {
     var body = this.signInForm.value
-    this._authApi.signIn(body).subscribe((response : any) => {
-      if(response.code !== RESPONSE_CODES.SUCCESS){
+    this._authApi.signIn(body).subscribe((response: any) => {
+      if (response.code !== RESPONSE_CODES.SUCCESS) {
         this.message = response.message
       }
-      var data = response.value
+      var data = response.data
       setAccessToken(data.accessToken)
       setRefreshToken(data.refreshToken)
       setUserId(data.userId)
@@ -106,7 +106,7 @@ export class SignIn implements OnInit, OnDestroy {
 
   signInByGoogle(): void {
     this.signInSocialsubscription = this._socialAuthService.authState.subscribe((user) => {
-      if(user === null) return;
+      if (user === null) return;
       this._authApi.SignInByGoogle(user.idToken)
         .subscribe((response) => {
           var data = response.value
