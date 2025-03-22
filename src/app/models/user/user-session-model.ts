@@ -1,6 +1,7 @@
 export class UserSession {
-    accessToken: string;
-    refreshToken: string;
-    refreshTokenExpiryTime: string;
-    userId: string
+  accessToken: string;
+  refreshToken: string;
+  refreshTokenExpiryTime: string;
+  userId: string;
+  fullname: string;
 }
