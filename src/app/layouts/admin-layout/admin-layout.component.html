@@ -1,0 +1,23 @@
+<nz-layout class="inner-layout">
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <ul nz-menu nzMode="inline" class="sider-menu">
+        @for (item of navigationItems; track $index) {
+          <li nz-menu-item (click)="navigateTo(item.route)">
+            <i nz-icon [nzType]="item.icon"></i> 
+            {{ item.lable }}
+          </li>
+        } 
+        <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
+          <ul>
+            <li nz-menu-item>option9</li>
+            <li nz-menu-item>option10</li>
+            <li nz-menu-item>option11</li>
+            <li nz-menu-item>option12</li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-content class="inner-content">
+      <router-outlet/>
+    </nz-content>
+</nz-layout>
