@@ -1,1 +1,36 @@
-<p>user-list works!</p>
+<div class="container">
+  <nz-card class="search-container">
+    <p>Card content</p>
+    <p>Card content</p>
+    <p>Card content</p>
+  </nz-card>
+
+  <nz-card class="table-container">
+    <nz-table
+      nzShowSizeChanger
+      [nzData]="users"
+      [nzFrontPagination]="true"
+      [nzLoading]="false"
+      [nzTotal]="totalRecord"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+    >
+      <thead>
+        <tr>
+          <th nzColumnKey="ID">Gender</th>
+          <th nzColumnKey="fullname" [nzSortFn]="true">Fullname</th>
+          <th nzColumnKey="email" [nzSortFn]="true">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of users; track data) {
+          <tr>
+            <td>{{ data.id}}</td>
+            <td>{{ data.fullname }}</td>
+            <td>{{ data.email }}</td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </nz-card>
+</div>
