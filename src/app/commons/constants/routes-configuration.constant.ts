@@ -5,6 +5,8 @@ import { Home } from '@/pages/home/home.component';
 import { SignUp } from '@/pages/sign-up/sign-up.component';
 import { ConfirmSignUp } from '@/pages/confirm-sign-up/confirm-sign-up.component';
 import { EmptyLayout } from '@/layouts/empty-layout/empty-layout.component';
+import { AdminLayout } from '@/layouts/admin-layout/admin-layout.component';
+import { UserList } from '@/pages/admin/user/user-list/user-list.component';
 
 export const ROUTES_CONFIGURATION = [
   //Main layout
@@ -17,8 +19,14 @@ export const ROUTES_CONFIGURATION = [
         component: Home,
       },
       {
-        path: END_POINT_ROUTE.ROOT,
-        component: Home,
+        path: END_POINT_ROUTE.ADMIN,
+        component: AdminLayout,
+        children: [
+          {
+            path: END_POINT_ROUTE.USER_LIST,
+            component: UserList,
+          },
+        ],
       },
     ],
   },

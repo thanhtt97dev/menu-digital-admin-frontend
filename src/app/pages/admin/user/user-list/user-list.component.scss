@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.container {
+  min-height: 80h;
+  //   @apply min-h-9/10;
+}
+
+.search-container {
+  max-height: 20vh;
+}
+
+.table-container {
+  min-height: 74vh;
+  margin-top: 1vh;
+}
