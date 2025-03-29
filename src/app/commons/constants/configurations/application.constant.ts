@@ -3,6 +3,7 @@ export enum COOKIE {
   REFRESH_TOKEN = '_refresh_token',
   USER_ID = '_uid',
   USER = 'user',
+  ROLE_ID = '_rid',
 }
 
 export enum REQUEST_HEADER {

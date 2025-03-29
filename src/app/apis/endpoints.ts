@@ -1,6 +1,8 @@
 import { environment } from 'src/environments/environment';
 
-const url = `${environment.api}/api/${environment.apiVersion}/`;
+// Backend not support api versioning
+const url = `${environment.api}/`;
+// const url = `${environment.api}/api/${environment.apiVersion}/`;
 
 export const enpoints = {
   AUTH: url + 'auth',

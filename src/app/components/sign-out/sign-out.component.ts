@@ -1,4 +1,4 @@
-import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
+import { END_POINT_ROUTE } from '@/commons/constants/configurations/end-point-route.constant';
 import { AppService } from '@/services/app.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';

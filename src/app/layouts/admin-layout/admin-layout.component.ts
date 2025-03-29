@@ -1,4 +1,4 @@
-import { NAVIGATION_ITEMS_ADMIN } from '@/commons/constants/navigation-items-admin-layout.constants';
+import { NAVIGATION_ITEMS_ADMIN } from '@/commons/constants/configurations/navigation-items-admin-layout.constants';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 

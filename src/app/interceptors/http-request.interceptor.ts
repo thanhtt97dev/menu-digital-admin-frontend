@@ -1,23 +1,34 @@
-import { NG_PROGRESS_REF } from '@/commons/constants/application.constant';
-import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpInterceptorFn,
+  HttpResponse,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NgProgress } from 'ngx-progressbar';
 import { tap } from 'rxjs';
-import { STATUS_CODES } from '@/commons/constants/http-status-code.constant';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NG_PROGRESS_REF } from '@/commons/constants/configurations/application.constant';
+import { Router } from '@angular/router';
 
 export const HttpRequestInterceptor: HttpInterceptorFn = (request, next) => {
   const ngProgress = inject(NgProgress).ref(NG_PROGRESS_REF);
+  const messageService = inject(NzMessageService);
+  const router = inject(Router);
 
   return next(request).pipe(
-    tap((event) => {
-      ngProgress.start();
-      if (event instanceof HttpResponse) {
-        if (event.status === STATUS_CODES.OK) {
-          console.log(event.body);
+    tap({
+      next: (event) => {
+        if (event instanceof HttpResponse) {
+          console.log(event.body); // Log successful response
         }
-
-        ngProgress.complete();
-      }
+      },
+      error: (error: HttpErrorResponse) => {
+        messageService.error('Your session expired! Please sign in.');
+        router.navigate(['/signIn']); // ✅ Redirect to sign-in page
+      },
+      complete: () => {
+        ngProgress.complete(); // Ensure progress bar stops
+      },
     })
   );
 };

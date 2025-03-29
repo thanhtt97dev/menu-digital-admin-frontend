@@ -19,11 +19,12 @@ import { NzCardComponent } from 'ng-zorro-antd/card';
 import { AuthApiService } from '@/apis/auth-api.service';
 import { AppService } from '@/services/app.service';
 import { Router, RouterLink } from '@angular/router';
-import { END_POINT_ROUTE } from '@/commons/constants/end-point-route.constant';
-import { RESPONSE_CODES } from '@/commons/constants/application-response-code.constant';
+import { END_POINT_ROUTE } from '@/commons/constants/configurations/end-point-route.constant';
+import { RESPONSE_CODES } from '@/commons/constants/configurations/application-response-code.constant';
 import {
   setAccessToken,
   setRefreshToken,
+  setRoleId,
   setUserId,
   setUserInCookie,
 } from '@/commons/utils/cookie.util';
@@ -101,6 +102,7 @@ export class SignIn implements OnInit, OnDestroy {
       setAccessToken(data.accessToken);
       setRefreshToken(data.refreshToken);
       setUserId(data.userId);
+      setRoleId(data.userId);
       setUserInCookie(data);
 
       this._appService.setUser(data);
@@ -117,6 +119,7 @@ export class SignIn implements OnInit, OnDestroy {
           setAccessToken(data.accessToken);
           setRefreshToken(data.refreshToken);
           setUserId(data.userId);
+          setRoleId(data.userId);
           setUserInCookie(data);
 
           this._appService.setUser(data);
