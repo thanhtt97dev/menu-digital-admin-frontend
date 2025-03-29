@@ -3,7 +3,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { UserApiService } from '@/apis/user-api.service';
-import { PAGE } from '@/commons/constants/application.constant';
+import { PAGE } from '@/commons/constants/configurations/application.constant';
 
 @Component({
   selector: 'user-list',

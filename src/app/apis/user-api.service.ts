@@ -15,6 +15,6 @@ export class UserApiService {
 
   getUsers(search: string = '', pageIndex: number = 1, pageSize: number = 10) {
     var url = `${enpoints.USER}?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
-    return this._apiBase.get(url);
+    return this._apiBase.getAuth(url);
   }
 }

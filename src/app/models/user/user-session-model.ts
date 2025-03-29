@@ -4,4 +4,5 @@ export class UserSession {
   refreshTokenExpiryTime: string;
   userId: string;
   fullname: string;
+  roleId: number;
 }
