@@ -24,6 +24,14 @@ export class ApiBaseService {
       .pipe(catchError(this.handleError));
   }
 
+  public putAuth(url: string, payload: any, options?: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const requestOptions = { ...options, headers };
+    return this._httpClient
+      .put(url, payload, requestOptions)
+      .pipe(catchError(this.handleError));
+  }
+
   public post(url: string, payload: any, options?: any): Observable<any> {
     return this._httpClient
       .post(url, payload, options)

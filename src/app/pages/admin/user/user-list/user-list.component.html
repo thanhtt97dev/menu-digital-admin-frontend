@@ -17,17 +17,31 @@
     >
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Username</th>
           <th>Fullname</th>
           <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         @for (data of users; track data) {
           <tr>
-            <td>{{ data.id}}</td>
+            <td>{{ (data.username ?? "N/A") }}</td>
             <td>{{ data.fullname }}</td>
             <td>{{ data.email }}</td>
+            <td>{{ data.roleName }}</td>
+            <td>
+              @if (data.roleId !== USER.ROLE.ADMIN){
+                @if (data.status === USER.STATUS.ACTIVATE){
+                  <button nz-button nzType="primary" (click)="showModalUpdateUserStatus(data.id ,data.status)">Activate</button>
+                }@else if (data.status === USER.STATUS.DEACTIVATE){
+                  <button nz-button nzType="default" nzDanger (click)="showModalUpdateUserStatus(data.id, data.status)">Deactivae</button>
+                }@else {
+                  <button nz-button nzGhost disabled>Un activate</button>
+                }
+              }
+            </td>
           </tr>
         }
       </tbody>
