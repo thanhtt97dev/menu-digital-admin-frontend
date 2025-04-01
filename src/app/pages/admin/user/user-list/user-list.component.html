@@ -14,6 +14,8 @@
       [nzTotal]="totalRecord"
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
+      (nzPageIndexChange)="changePageIndex($event)"
+      (nzPageSizeChange)="changePageSize($event)"
     >
       <thead>
         <tr>

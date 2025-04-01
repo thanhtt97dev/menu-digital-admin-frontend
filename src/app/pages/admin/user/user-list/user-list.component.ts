@@ -1,27 +1,29 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Component, ViewEncapsulation, OnInit } from "@angular/core";
+import { NzCardModule } from "ng-zorro-antd/card";
+import { NzTableModule } from "ng-zorro-antd/table";
+import { NzButtonModule } from "ng-zorro-antd/button";
 import {
   ModalOptions,
   NzModalModule,
   NzModalService,
-} from 'ng-zorro-antd/modal';
+} from "ng-zorro-antd/modal";
 
-import { UserApiService } from '@/apis/user-api.service';
-import { PAGE } from '@/commons/constants/configurations/application.constant';
-import { USER } from '@/commons/constants/models/user.model.constant';
+import { UserApiService } from "@/apis/user-api.service";
+import { PAGE } from "@/commons/constants/configurations/application.constant";
+import { USER } from "@/commons/constants/models/user.model.constant";
 
 @Component({
-  selector: 'user-list',
+  selector: "user-list",
   standalone: true,
   imports: [NzCardModule, NzTableModule, NzButtonModule, NzModalModule],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss',
+  templateUrl: "./user-list.component.html",
+  styleUrl: "./user-list.component.scss",
   encapsulation: ViewEncapsulation.None,
 })
 export class UserList implements OnInit {
   users: [any];
+
+  searchQuery: string = "";
   pageIndex: number = PAGE.INDEX_DEFAULT;
   pageSize: number = PAGE.MAX_INDEX_DEFAULT;
   totalRecord: number = 0;
@@ -40,7 +42,7 @@ export class UserList implements OnInit {
 
   getUsers(): void {
     this._userApiService
-      .getUsers('', PAGE.INDEX_DEFAULT, PAGE.MAX_INDEX_DEFAULT)
+      .getUsers(this.searchQuery, this.pageIndex, this.pageSize)
       .subscribe((res) => {
         this.users = res?.data?.items;
         this.pageIndex = res?.data?.pageIndex;
@@ -56,7 +58,7 @@ export class UserList implements OnInit {
 
     const options: ModalOptions = {
       nzTitle: "Do you Want to change user's status?",
-      nzContent: 'User can login into application',
+      nzContent: "User can login into application",
       nzOnOk: () => this.updateUserStatus(id, newStatus),
     };
     this.modal.confirm(options);
@@ -69,5 +71,15 @@ export class UserList implements OnInit {
         user.status = status;
       }
     });
+  }
+
+  changePageIndex(pageIndex: number) {
+    this.pageIndex = pageIndex;
+    this.getUsers();
+  }
+
+  changePageSize(pageSize: any) {
+    this.pageSize = pageSize;
+    this.getUsers();
   }
 }
