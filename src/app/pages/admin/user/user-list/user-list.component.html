@@ -1,8 +1,39 @@
 <div class="container">
   <nz-card class="search-container">
-    <p>Card content</p>
-    <p>Card content</p>
-    <p>Card content</p>
+
+    <div nz-row>
+      <div nz-col nzSpan="9" nzOffset="1">
+        <input nz-input placeholder="Enter fullname" [(ngModel)]="fullname" type="text" />
+      </div>
+      <div nz-col nzSpan="5" nzOffset="2">
+        <nz-select [(ngModel)]="roleId">
+          <nz-option nzValue="0" nzLabel="All" nzSelected></nz-option>
+          <nz-option nzValue="1" nzLabel="Admin"></nz-option>
+          <nz-option nzValue="2" nzLabel="Shop admin"></nz-option>
+          <nz-option nzValue="3" nzLabel="Employee"></nz-option>
+          <nz-option nzValue="4" nzLabel="Customer"></nz-option>
+        </nz-select>
+      </div>
+    </div>
+
+    <div nz-row class="mt-1">
+      <div nz-col nzSpan="9" nzOffset="1">
+        <input nz-input placeholder="Enter email" [(ngModel)]="email" type="text" />
+      </div>
+      <div nz-col nzSpan="5" nzOffset="2">
+        <nz-select [(ngModel)]="statusId">
+          <nz-option nzValue="-1" nzLabel="Unactivate"></nz-option>
+          <nz-option nzValue="0" nzLabel="Deactivate"></nz-option>
+          <nz-option nzValue="1" nzLabel="Activate"></nz-option>
+          <nz-option nzValue="9999" nzLabel="All" nzSelected></nz-option>
+        </nz-select>
+      </div>
+      <div nz-col nzSpan="1" nzOffset="1">
+        <button nz-button nzType="primary" nzShape="circle">
+          <!-- <nz-icon nzType="search" /> -->
+        </button>
+      </div>
+    </div>
   </nz-card>
 
   <nz-card class="table-container">

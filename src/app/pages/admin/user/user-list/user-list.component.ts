@@ -1,12 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import {
-  ModalOptions,
-  NzModalModule,
-  NzModalService,
-} from 'ng-zorro-antd/modal';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NgZorroAntdModule } from '@/commons/modules/ng-zorro-antd.module';
+import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal';
+import { FormsModule } from '@angular/forms';
 
 import { UserApiService } from '@/apis/user-api.service';
 import { PAGE } from '@/commons/constants/configurations/application.constant';
@@ -15,7 +11,7 @@ import { USER } from '@/commons/constants/models/user.model.constant';
 @Component({
   selector: 'user-list',
   standalone: true,
-  imports: [NzCardModule, NzTableModule, NzButtonModule, NzModalModule],
+  imports: [NgZorroAntdModule, FormsModule, NzIconModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -26,8 +22,8 @@ export class UserList implements OnInit {
   username: string;
   fullname: string;
   email: string;
-  roleId: number;
-  statusId: number;
+  roleId: string = '0';
+  statusId: string = '9999';
   pageIndex: number = PAGE.INDEX_DEFAULT;
   pageSize: number = PAGE.MAX_INDEX_DEFAULT;
   totalRecord: number = 0;

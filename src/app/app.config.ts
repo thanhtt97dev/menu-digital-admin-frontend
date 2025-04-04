@@ -16,9 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     //add provider http client
-    provideHttpClient(
-      withInterceptors([HttpRequestInterceptor])
-    ),
+    provideHttpClient(withInterceptors([HttpRequestInterceptor])),
 
     //add provider animation for UI libs
     provideAnimations(),
@@ -32,6 +30,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NgZorroAntdModule),
 
     // add angularx-social-login modules
-    importProvidersFrom(AngularSocialLoginModule)
-  ]
+    importProvidersFrom(AngularSocialLoginModule),
+  ],
 };

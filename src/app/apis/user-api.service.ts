@@ -18,8 +18,8 @@ export class UserApiService {
     username: string,
     fullname: string,
     email: string,
-    roleId: number,
-    statusId: number,
+    roleId: string,
+    statusId: string,
     pageIndex: number = 1,
     pageSize: number = 10
   ) {
